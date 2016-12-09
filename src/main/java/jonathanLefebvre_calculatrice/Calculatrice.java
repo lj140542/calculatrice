@@ -163,6 +163,15 @@ public class Calculatrice {
 			} else
 				System.err.println("Erreur dans le nombre de paramètre");
 			return 1;
+		case "tan":
+			if (pile.size() > 0) {
+				double a = pile.get(pile.size() - 1);
+				pile.remove(pile.size() - 1);
+				pile.add(tan(a));
+				break;
+			} else
+				System.err.println("Erreur dans le nombre de paramètre");
+			return 1;
 		case "inv":
 			if (pile.size() > 0) {
 				double a = pile.get(pile.size() - 1);
@@ -255,6 +264,10 @@ public class Calculatrice {
 
 	public double cos(double a) {
 		return Math.cos(a);
+	}
+	
+	public double tan(double a) {
+		return Math.tan(a);
 	}
 
 	public double inv(double a) {

@@ -63,6 +63,11 @@ public class CalculatriceTest {
 	public void testCos() {
 		assertEquals(0.5, calculatrice.cos(Math.PI / 3), 0.00001);
 	}
+	
+	@Test
+	public void testTan() {
+		assertEquals(1.73205080757, calculatrice.tan(Math.PI/3), 0.00001);
+	}
 
 	@Test
 	public void testInv() {
