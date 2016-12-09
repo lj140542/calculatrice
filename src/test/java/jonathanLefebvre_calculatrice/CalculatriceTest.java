@@ -1,6 +1,11 @@
 package jonathanLefebvre_calculatrice;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import org.junit.After;
 import org.junit.Before;
@@ -83,7 +88,6 @@ public class CalculatriceTest {
 	}
 
 	@Test
-	public void testConstructeurString() {
-		calculatrice = new Calculatrice("6 4 + 5 * 2 / sqrt 2.5 / 2 opp puiss");
+	public void testMain() {
 	}
 }

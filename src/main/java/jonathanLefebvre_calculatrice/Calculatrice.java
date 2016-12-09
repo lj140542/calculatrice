@@ -9,18 +9,47 @@ public class Calculatrice {
 
 	private String calcul;
 	private ArrayList<Double> pile;
+	private boolean trace = false;
+	private boolean stop = false;
+
+	public static void main(String[] args) {
+		Calculatrice calc = new Calculatrice();
+		try {
+			calc.evaluer(args[0]);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			System.out.println("Mode interactif: ");
+			calc.entree();
+			System.out.println("Fin du mode interactif");
+		}
+
+	}
 
 	public Calculatrice() {
 		this.pile = new ArrayList<Double>();
 	}
 
-	public Calculatrice(String calcul) {
-		this.pile = new ArrayList<Double>();
-		this.calcul = calcul;
-		evaluer(calcul);
+	private int entree() {
+		Scanner sc = new Scanner(System.in);
+		while (!stop) {
+			String test = sc.next();
+			if (Character.isDigit(test.charAt(0)))
+				pile.add(Double.parseDouble("" + test));
+			else
+				calcul(test);
+			if (trace)
+				System.out.println(this);
+		}
+
+		sc.close();
+		if (pile.size() != 1) {
+			System.out.println(this);
+			return 1;
+		} else
+			System.out.println("Resultat : " + pile.get(pile.size() - 1));
+		return 0;
 	}
 
-	private double evaluer(String source) {
+	private int evaluer(String source) {
 		Scanner sc = new Scanner(source);
 		sc.useDelimiter(" ");
 
@@ -35,14 +64,14 @@ public class Calculatrice {
 
 		sc.close();
 		if (pile.size() != 1) {
-			System.err.println("Erreur dans le nombre de paramètre");
+			System.out.println(this);
 			return 1;
 		} else
-			System.out.println(pile.get(0));
+			System.out.println("Resultat : " + pile.get(pile.size() - 1));
 		return 0;
 	}
 
-	public double calcul(String tmp) {
+	public int calcul(String tmp) {
 		switch (tmp) {
 		case "+":
 			if (pile.size() > 1) {
@@ -177,6 +206,18 @@ public class Calculatrice {
 			} else
 				System.err.println("Erreur dans le nombre de paramètre");
 			return 1;
+		case "trace":
+			this.trace = true;
+			break;
+		case "notrace":
+			this.trace = false;
+			break;
+		case "pile":
+			System.out.println(this);
+			break;
+		case "stop":
+			this.stop = true;
+			break;
 		default:
 			System.err.println("Erreur operateur non reconnu");
 			return 1;
@@ -235,7 +276,7 @@ public class Calculatrice {
 		else
 			return inv(puiss(a, opp(b)));
 	}
-	
+
 	public double gamma(double a) {
 		return Gamma.gamma(a);
 	}
