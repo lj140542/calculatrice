@@ -21,27 +21,69 @@ public class CalculatriceTest {
 
 	@Test
 	public void testAddition() {
-		assertEquals(5, calculatrice.addition(3, 2));
+		assertEquals(5, calculatrice.addition(3, 2), 0.00001);
 	}
 
 	@Test
 	public void testSoustraction() {
-		assertEquals(5, calculatrice.soustraction(7, 2));
+		assertEquals(5, calculatrice.soustraction(7, 2), 0.00001);
 	}
 
 	@Test
 	public void testMultiplication() {
-		assertEquals(6, calculatrice.multiplication(3, 2));
+		assertEquals(6, calculatrice.multiplication(3, 2), 0.00001);
 	}
 
 	@Test
 	public void testDivision() {
-		assertEquals(3, calculatrice.division(6, 2));
+		assertEquals(3, calculatrice.division(6, 2), 0.00001);
+	}
+
+	@Test
+	public void testRacine() {
+		assertEquals(5, calculatrice.racine(25), 0.00001);
+	}
+
+	@Test
+	public void testCarre() {
+		assertEquals(25, calculatrice.carre(5), 0.00001);
+	}
+
+	@Test
+	public void testSin() {
+		assertEquals(1, calculatrice.sin(Math.PI / 2), 0.00001);
+	}
+
+	@Test
+	public void testCos() {
+		assertEquals(0.5, calculatrice.cos(Math.PI / 3), 0.00001);
+	}
+
+	@Test
+	public void testInv() {
+		assertEquals(0.25, calculatrice.inv(4), 0.00001);
+	}
+
+	@Test
+	public void testOpp() {
+		assertEquals(-5, calculatrice.opp(5), 0.00001);
 	}
 	
 	@Test
+	public void testPuiss() {
+		assertEquals(8, calculatrice.puiss(2, 3), 0.00001);
+		assertEquals(1, calculatrice.puiss(2, 0), 0.00001);
+		assertEquals(2, calculatrice.puiss(2, 1), 0.00001);
+		assertEquals(0.25, calculatrice.puiss(2, -2), 0.00001);
+	}
+	
+	@Test
+	public void testGamma() {
+		assertEquals(2.67893853 , calculatrice.gamma(1.0/3), 0.00001);
+	}
+
+	@Test
 	public void testConstructeurString() {
-		//doit print 7
-		calculatrice = new Calculatrice("3 4 + 9 * 7");
+		calculatrice = new Calculatrice("6 4 + 5 * 2 / sqrt 2.5 / 2 opp puiss");
 	}
 }
