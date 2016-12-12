@@ -10,6 +10,7 @@ import java.io.InputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import junit.runner.Version;
 
 public class CalculatriceTest {
 
@@ -18,10 +19,6 @@ public class CalculatriceTest {
 	@Before
 	public void setUp() {
 		calculatrice = new Calculatrice();
-	}
-
-	@After
-	public void tearDown() {
 	}
 
 	@Test
@@ -90,9 +87,5 @@ public class CalculatriceTest {
 	@Test
 	public void testGamma() {
 		assertEquals(2.67893853 , calculatrice.gamma(1.0/3), 0.00001);
-	}
-
-	@Test
-	public void testMain() {
 	}
 }
