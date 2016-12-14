@@ -156,8 +156,13 @@ public class Calculatrice {
 					break;
 				}
 			case "!":
-				pile.add(gamma(gerePile(0)[0]));
-				break;
+				if (sommet() != 0) {
+					pile.add(gamma(gerePile(0)[0]));
+					break;
+				} else {
+					System.err.println("Erreur gamma de 0");
+					break;
+				}
 			case "trace":
 				this.trace = true;
 				break;
