@@ -15,108 +15,383 @@ import junit.runner.Version;
 public class CalculatriceTest {
 
 	protected Calculatrice calculatrice;
+	private final double ERREUR = 0.00001;
 
 	@Before
 	public void setUp() {
 		calculatrice = new Calculatrice();
 	}
 
-	// Les opérandes étant toutes des doubles, et le nombre de celles-ci étant
-	// vérifié avant l'appel de chacune des méthodes de calculs, Les paramètres
-	// ne peuvent êtres null ou en dehors de l'ensemble sur lequel le calcul se
-	// réalise
 	@Test
 	public void testAddition() {
-		assertEquals(5, calculatrice.addition(3, 2), 0.00001);
+		calculatrice.addPile(2);
+		calculatrice.addPile(3);
+		calculatrice.calcul("+");
+		assertEquals(5, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testAdditionNulle() {
+		calculatrice.addPile(2);
+		calculatrice.addPile(0);
+		calculatrice.calcul("+");
+		assertEquals(2, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testAdditionNegative() {
+		calculatrice.addPile(2);
+		calculatrice.addPile(-2);
+		calculatrice.calcul("+");
+		assertEquals(0, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testAdditionNull() {
+		calculatrice.addPile(2);
+		calculatrice.calcul("+");
+		assertEquals(2, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testSoustraction() {
-		assertEquals(5, calculatrice.soustraction(7, 2), 0.00001);
+		calculatrice.addPile(7);
+		calculatrice.addPile(2);
+		calculatrice.calcul("-");
+		assertEquals(5, calculatrice.sommet(), ERREUR);
 	}
-	
+
+	@Test
+	public void testSoustractionNulle() {
+		calculatrice.addPile(7);
+		calculatrice.addPile(0);
+		calculatrice.calcul("-");
+		assertEquals(7, calculatrice.sommet(), ERREUR);
+	}
+
 	@Test
 	public void testSoustractionNegative() {
-		assertEquals(5, calculatrice.soustraction(3, -2), 0.00001);
+		calculatrice.addPile(3);
+		calculatrice.addPile(-2);
+		calculatrice.calcul("-");
+		assertEquals(5, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testSoustractionNull() {
+		calculatrice.addPile(3);
+		calculatrice.calcul("-");
+		assertEquals(3, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testMultiplication() {
-		assertEquals(6, calculatrice.multiplication(3, 2), 0.00001);
-	}
-	
-	@Test
-	public void testMultiplicationNulle() {
-		assertEquals(0, calculatrice.multiplication(3, 0), 0.00001);
-	}
-	
-	@Test
-	public void testMultiplicationNegative() {
-		assertEquals(-9, calculatrice.multiplication(3, -3), 0.00001);
+		calculatrice.addPile(3);
+		calculatrice.addPile(2);
+		calculatrice.calcul("*");
+		assertEquals(6, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
-	public void testDivision() {
-		assertEquals(3, calculatrice.division(6, 2), 0.00001);
+	public void testMultiplicationNulle() {
+		calculatrice.addPile(0);
+		calculatrice.addPile(3);
+		calculatrice.calcul("*");
+		assertEquals(0, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testMultiplicationNegative() {
+		calculatrice.addPile(3);
+		calculatrice.addPile(-2);
+		calculatrice.calcul("*");
+		assertEquals(-6, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testMultiplicationNull() {
+		calculatrice.addPile(3);
+		calculatrice.calcul("*");
+		assertEquals(3, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testRacine() {
-		assertEquals(5, calculatrice.racine(25), 0.00001);
+		calculatrice.addPile(9);
+		calculatrice.calcul("sqrt");
+		assertEquals(3, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testRacineNulle() {
+		calculatrice.addPile(0);
+		calculatrice.calcul("sqrt");
+		assertEquals(0, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testRacineNegative() {
+		calculatrice.addPile(-2);
+		calculatrice.calcul("sqrt");
+		assertEquals(-2, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testRacineOperande() {
+		calculatrice.addPile(25);
+		calculatrice.addPile(9);
+		calculatrice.calcul("sqrt");
+		assertEquals(3, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testCarre() {
-		assertEquals(25, calculatrice.carre(5), 0.00001);
+		calculatrice.addPile(3);
+		calculatrice.calcul("carré");
+		assertEquals(9, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testCarreNulle() {
+		calculatrice.addPile(0);
+		calculatrice.calcul("carré");
+		assertEquals(0, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testCarreNegative() {
+		calculatrice.addPile(-3);
+		calculatrice.calcul("carré");
+		assertEquals(9, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testCarreOperande() {
+		calculatrice.addPile(5);
+		calculatrice.addPile(3);
+		calculatrice.calcul("carré");
+		assertEquals(9, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testSin() {
-		assertEquals(1, calculatrice.sin(Math.PI / 2), 0.00001);
+		calculatrice.addPile(Math.PI / 2);
+		calculatrice.calcul("sin");
+		assertEquals(1, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testSinNulle() {
+		calculatrice.addPile(0);
+		calculatrice.calcul("sin");
+		assertEquals(0, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testSinNegative() {
+		calculatrice.addPile(-2);
+		calculatrice.calcul("sin");
+		assertEquals(-0.90929742682, calculatrice.sommet(), ERREUR);
+	}
+
+	@Test
+	public void testSinOperande() {
+		calculatrice.addPile(-2);
+		calculatrice.addPile(Math.PI / 2);
+		calculatrice.calcul("sin");
+		assertEquals(1, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testCos() {
-		assertEquals(0.5, calculatrice.cos(Math.PI / 3), 0.00001);
+		calculatrice.addPile(Math.PI / 3);
+		calculatrice.calcul("cos");
+		assertEquals(0.5, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testCosNulle() {
+		calculatrice.addPile(0);
+		calculatrice.calcul("cos");
+		assertEquals(1, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testCosNegative() {
+		calculatrice.addPile(-2);
+		calculatrice.calcul("cos");
+		assertEquals(-0.41614683654, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testTan() {
-		assertEquals(1.73205080757, calculatrice.tan(Math.PI / 3), 0.00001);
+		calculatrice.addPile(Math.PI / 3);
+		calculatrice.calcul("tan");
+		assertEquals(1.73205080757, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testTanNulle() {
+		calculatrice.addPile(0);
+		calculatrice.calcul("tan");
+		assertEquals(0, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testTanNegative() {
+		calculatrice.addPile(-2);
+		calculatrice.calcul("tan");
+		assertEquals(2.18503986326, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testTanOperande() {
+		calculatrice.addPile(0);
+		calculatrice.addPile(Math.PI / 3);
+		calculatrice.calcul("tan");
+		assertEquals(1.73205080757, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testInv() {
-		assertEquals(0.25, calculatrice.inv(4), 0.00001);
+		calculatrice.addPile(4);
+		calculatrice.calcul("inv");
+		assertEquals(0.25, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testInvNulle() {
+		calculatrice.addPile(0);
+		calculatrice.calcul("inv");
+		assertEquals(0, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testInvNegative() {
+		calculatrice.addPile(-2);
+		calculatrice.calcul("inv");
+		assertEquals(1/-2.0, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testInvOperande() {
+		calculatrice.addPile(2);
+		calculatrice.addPile(-2);
+		calculatrice.calcul("inv");
+		assertEquals(1/-2.0, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testOpp() {
-		assertEquals(-5, calculatrice.opp(5), 0.00001);
+		calculatrice.addPile(5);
+		calculatrice.calcul("opp");
+		assertEquals(-5, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testOppNulle() {
+		calculatrice.addPile(0);
+		calculatrice.calcul("opp");
+		assertEquals(0, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testNegative() {
+		calculatrice.addPile(-5);
+		calculatrice.calcul("opp");
+		assertEquals(5, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testOppOperande() {
+		calculatrice.addPile(7);
+		calculatrice.addPile(5);
+		calculatrice.calcul("opp");
+		assertEquals(-5, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testPuiss() {
-		assertEquals(8, calculatrice.puiss(2, 3), 0.00001);
+		calculatrice.addPile(2);
+		calculatrice.addPile(3);
+		calculatrice.calcul("puiss");
+		assertEquals(8, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
-	public void testPuissNull() {
-		assertEquals(1, calculatrice.puiss(2, 0), 0.00001);
+	public void testPuissNulle() {
+		calculatrice.addPile(2);
+		calculatrice.addPile(0);
+		calculatrice.calcul("puiss");
+		assertEquals(1, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testPuissUn() {
-		assertEquals(2, calculatrice.puiss(2, 1), 0.00001);
+		calculatrice.addPile(2);
+		calculatrice.addPile(1);
+		calculatrice.calcul("puiss");
+		assertEquals(2, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testPuissNegatif() {
-		assertEquals(0.25, calculatrice.puiss(2, -2), 0.00001);
+		calculatrice.addPile(2);
+		calculatrice.addPile(-2);
+		calculatrice.calcul("puiss");
+		assertEquals(0.25, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testPuissNull() {
+		calculatrice.addPile(2);
+		calculatrice.calcul("puiss");
+		assertEquals(2, calculatrice.sommet(), ERREUR);
 	}
 
 	@Test
 	public void testGamma() {
-		assertEquals(2.67893853, calculatrice.gamma(1.0 / 3), 0.00001);
+		//First interval: (0, 0.001)
+		calculatrice.addPile(0.00001);
+		calculatrice.calcul("!");
+		assertEquals(99999.42278766684, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testGamma2() {
+		//Second interval: [0.001, 12)
+		calculatrice.addPile(3);
+		calculatrice.calcul("!");
+		assertEquals(2.0, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testGamma3() {
+		//Third interval: [12, infinity)
+		calculatrice.addPile(15);
+		calculatrice.calcul("!");
+		assertEquals(8.717829120000017E10, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testGammaNulle() {
+		calculatrice.addPile(0);
+		calculatrice.calcul("!");
+		assertEquals(0, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testGammaNegative() {
+		calculatrice.addPile(-5);
+		calculatrice.calcul("!");
+		assertEquals(-5, calculatrice.sommet(), ERREUR);
+	}
+	
+	@Test
+	public void testGammaOperande() {
+		calculatrice.addPile(2);
+		calculatrice.addPile(1.0/3);
+		calculatrice.calcul("!");
+		assertEquals(2.67893853, calculatrice.sommet(), ERREUR);
 	}
 }
