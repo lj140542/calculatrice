@@ -28,28 +28,29 @@ public class Calculatrice {
 		this.pile = new ArrayList<Double>();
 	}
 
-	private int entree() {
+	private void entree() {
 		Scanner sc = new Scanner(System.in);
 		while (!stop) {
 			String test = sc.next();
-			if (Character.isDigit(test.charAt(0)))
+			if (Character.isDigit(test.charAt(0))) {
 				pile.add(Double.parseDouble("" + test));
-			else
+			} else {
 				calcul(test);
-			if (trace)
+			}
+			if (trace) {
 				System.out.println(this);
+			}
 		}
 
 		sc.close();
 		if (pile.size() != 1) {
 			System.out.println(this);
-			return 1;
-		} else
+		} else {
 			System.out.println("Resultat : " + pile.get(pile.size() - 1));
-		return 0;
+		}
 	}
 
-	private int evaluer(String source) {
+	private void evaluer(String source) {
 		Scanner sc = new Scanner(source);
 		sc.useDelimiter(" ");
 
@@ -65,14 +66,14 @@ public class Calculatrice {
 		sc.close();
 		if (pile.size() != 1) {
 			System.out.println(this);
-			return 1;
-		} else
+		} else {
 			System.out.println("Resultat : " + pile.get(pile.size() - 1));
-		return 0;
+		}
 	}
 
 	public void calcul(String tmp) {
-		if (!pile.isEmpty()) {
+		if (tmp.equals("trace") || tmp.equals("notrace") || tmp.equals("pile") || tmp.equals("stop")
+				|| !pile.isEmpty()) {
 			switch (tmp) {
 			case "+":
 				if (pile.size() > 1) {
@@ -137,14 +138,14 @@ public class Calculatrice {
 				break;
 			case "inv":
 				if (sommet() != 0) {
-					pile.add(1/gerePile(0)[0]);
+					pile.add(1 / gerePile(0)[0]);
 					break;
 				} else {
 					System.err.println("Erreur division par 0");
 					break;
 				}
 			case "opp":
-				pile.add((gerePile(0)[0])*(-1));
+				pile.add((gerePile(0)[0]) * (-1));
 				break;
 			case "puiss":
 				if (pile.size() > 1) {
@@ -210,10 +211,11 @@ public class Calculatrice {
 			for (double cpt = 1; cpt < b; cpt++)
 				tmp = tmp * a;
 			return tmp;
-		} else if (b == 0)
+		} else if (b == 0) {
 			return 1;
-		else
-			return 1/(puiss(a, (b*(-1))));
+		} else {
+			return 1 / (puiss(a, (b * (-1))));
+		}
 	}
 
 	public double gamma(double a) {
