@@ -77,7 +77,7 @@ public class Calculatrice {
 			case "+":
 				if (pile.size() > 1) {
 					double[] tab = gerePile(1);
-					pile.add(addition(tab[0], tab[1]));
+					pile.add(tab[0] + tab[1]);
 					break;
 				} else {
 					System.err.println("Erreur dans le nombre de paramètre");
@@ -86,7 +86,7 @@ public class Calculatrice {
 			case "-":
 				if (pile.size() > 1) {
 					double[] tab = gerePile(1);
-					pile.add(soustraction(tab[0], tab[1]));
+					pile.add(tab[0] - tab[1]);
 					break;
 				} else {
 					System.err.println("Erreur dans le nombre de paramètre");
@@ -95,7 +95,7 @@ public class Calculatrice {
 			case "*":
 				if (pile.size() > 1) {
 					double[] tab = gerePile(1);
-					pile.add(multiplication(tab[0], tab[1]));
+					pile.add(tab[0] * tab[1]);
 					break;
 				} else {
 					System.err.println("Erreur dans le nombre de paramètre");
@@ -105,7 +105,7 @@ public class Calculatrice {
 				if (pile.size() > 1) {
 					if (sommet() != 0) {
 						double[] tab = gerePile(1);
-						pile.add(division(tab[0], tab[1]));
+						pile.add(tab[0] / tab[1]);
 						break;
 					} else {
 						System.err.println("Erreur division par 0");
@@ -117,7 +117,7 @@ public class Calculatrice {
 				}
 			case "sqrt":
 				if (sommet() >= 0) {
-					pile.add(racine(gerePile(0)[0]));
+					pile.add(Math.sqrt(gerePile(0)[0]));
 					break;
 				} else {
 					System.err.println("Erreur racine de nombre negatif");
@@ -127,24 +127,24 @@ public class Calculatrice {
 				pile.add(carre(gerePile(0)[0]));
 				break;
 			case "sin":
-				pile.add(sin(gerePile(0)[0]));
+				pile.add(Math.sin(gerePile(0)[0]));
 				break;
 			case "cos":
-				pile.add(cos(gerePile(0)[0]));
+				pile.add(Math.cos(gerePile(0)[0]));
 				break;
 			case "tan":
-				pile.add(tan(gerePile(0)[0]));
+				pile.add(Math.tan(gerePile(0)[0]));
 				break;
 			case "inv":
 				if (sommet() != 0) {
-					pile.add(inv(gerePile(0)[0]));
+					pile.add(1/gerePile(0)[0]);
 					break;
 				} else {
 					System.err.println("Erreur division par 0");
 					break;
 				}
 			case "opp":
-				pile.add(opp(gerePile(0)[0]));
+				pile.add((gerePile(0)[0])*(-1));
 				break;
 			case "puiss":
 				if (pile.size() > 1) {
@@ -195,48 +195,8 @@ public class Calculatrice {
 		}
 	}
 
-	public double addition(double a, double b) {
-		return a + b;
-	}
-
-	public double soustraction(double a, double b) {
-		return a - b;
-	}
-
-	public double multiplication(double a, double b) {
-		return a * b;
-	}
-
-	public double division(double a, double b) {
-		return a / b;
-	}
-
-	public double racine(double a) {
-		return Math.sqrt(a);
-	}
-
 	public double carre(double a) {
 		return a * a;
-	}
-
-	public double sin(double a) {
-		return Math.sin(a);
-	}
-
-	public double cos(double a) {
-		return Math.cos(a);
-	}
-
-	public double tan(double a) {
-		return Math.tan(a);
-	}
-
-	public double inv(double a) {
-		return 1 / a;
-	}
-
-	public double opp(double a) {
-		return a * (-1);
 	}
 
 	public double puiss(double a, double b) {
@@ -248,7 +208,7 @@ public class Calculatrice {
 		} else if (b == 0)
 			return 1;
 		else
-			return inv(puiss(a, opp(b)));
+			return 1/(puiss(a, (b*(-1))));
 	}
 
 	public double gamma(double a) {
