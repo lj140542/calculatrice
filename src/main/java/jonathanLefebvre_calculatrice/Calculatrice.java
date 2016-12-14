@@ -156,7 +156,7 @@ public class Calculatrice {
 					break;
 				}
 			case "!":
-				if (sommet() != 0) {
+				if (sommet() > 0) {
 					pile.add(gamma(gerePile(0)[0]));
 					break;
 				} else {
