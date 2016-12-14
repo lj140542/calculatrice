@@ -71,167 +71,128 @@ public class Calculatrice {
 		return 0;
 	}
 
-	public int calcul(String tmp) {
-		switch (tmp) {
-		case "+":
-			if (pile.size() > 1) {
-				double a = pile.get(pile.size() - 2);
-				double b = pile.get(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.add(addition(a, b));
-				break;
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "-":
-			if (pile.size() > 1) {
-				double a = pile.get(pile.size() - 2);
-				double b = pile.get(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.add(soustraction(a, b));
-				break;
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "*":
-			if (pile.size() > 1) {
-				double a = pile.get(pile.size() - 2);
-				double b = pile.get(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.add(multiplication(a, b));
-				break;
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "/":
-			if (pile.size() > 1) {
-				double a = pile.get(pile.size() - 2);
-				double b = pile.get(pile.size() - 1);
-				if (b != 0) {
-					pile.remove(pile.size() - 1);
-					pile.remove(pile.size() - 1);
-					pile.add(division(a, b));
+	public void calcul(String tmp) {
+		if (!pile.isEmpty()) {
+			switch (tmp) {
+			case "+":
+				if (pile.size() > 1) {
+					double[] tab = gerePile(1);
+					pile.add(addition(tab[0], tab[1]));
 					break;
 				} else {
-					System.err.println("Erreur division par 0");
-					return 2;
+					System.err.println("Erreur dans le nombre de paramètre");
+					break;
 				}
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "sqrt":
-			if (pile.size() > 0) {
-				double a = pile.get(pile.size() - 1);
-				if (a >= 0) {
-					pile.remove(pile.size() - 1);
-					pile.add(racine(a));
+			case "-":
+				if (pile.size() > 1) {
+					double[] tab = gerePile(1);
+					pile.add(soustraction(tab[0], tab[1]));
+					break;
+				} else {
+					System.err.println("Erreur dans le nombre de paramètre");
+					break;
+				}
+			case "*":
+				if (pile.size() > 1) {
+					double[] tab = gerePile(1);
+					pile.add(multiplication(tab[0], tab[1]));
+					break;
+				} else {
+					System.err.println("Erreur dans le nombre de paramètre");
+					break;
+				}
+			case "/":
+				if (pile.size() > 1) {
+					if (sommet() != 0) {
+						double[] tab = gerePile(1);
+						pile.add(division(tab[0], tab[1]));
+						break;
+					} else {
+						System.err.println("Erreur division par 0");
+						break;
+					}
+				} else {
+					System.err.println("Erreur dans le nombre de paramètre");
+					break;
+				}
+			case "sqrt":
+				if (sommet() >= 0) {
+					pile.add(racine(gerePile(0)[0]));
 					break;
 				} else {
 					System.err.println("Erreur racine de nombre negatif");
-					return 2;
+					break;
 				}
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "carré":
-			if (pile.size() > 0) {
-				double a = pile.get(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.add(carre(a));
+			case "carré":
+				pile.add(carre(gerePile(0)[0]));
 				break;
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "sin":
-			if (pile.size() > 0) {
-				double a = pile.get(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.add(sin(a));
+			case "sin":
+				pile.add(sin(gerePile(0)[0]));
 				break;
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "cos":
-			if (pile.size() > 0) {
-				double a = pile.get(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.add(cos(a));
+			case "cos":
+				pile.add(cos(gerePile(0)[0]));
 				break;
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "tan":
-			if (pile.size() > 0) {
-				double a = pile.get(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.add(tan(a));
+			case "tan":
+				pile.add(tan(gerePile(0)[0]));
 				break;
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "inv":
-			if (pile.size() > 0) {
-				double a = pile.get(pile.size() - 1);
-				if (a != 0) {
-					pile.remove(pile.size() - 1);
-					pile.add(inv(a));
+			case "inv":
+				if (sommet() != 0) {
+					pile.add(inv(gerePile(0)[0]));
 					break;
 				} else {
 					System.err.println("Erreur division par 0");
-					return 2;
+					break;
 				}
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "opp":
-			if (pile.size() > 0) {
-				double a = pile.get(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.add(opp(a));
+			case "opp":
+				pile.add(opp(gerePile(0)[0]));
 				break;
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "puiss":
-			if (pile.size() > 1) {
-				double a = pile.get(pile.size() - 2);
-				double b = pile.get(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.add(puiss(a, b));
+			case "puiss":
+				if (pile.size() > 1) {
+					double[] tab = gerePile(1);
+					pile.add(puiss(tab[0], tab[1]));
+					break;
+				} else {
+					System.err.println("Erreur dans le nombre de paramètre");
+					break;
+				}
+			case "!":
+				pile.add(gamma(gerePile(0)[0]));
 				break;
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "!":
-			if (pile.size() > 0) {
-				double a = pile.get(pile.size() - 1);
-				pile.remove(pile.size() - 1);
-				pile.add(gamma(a));
+			case "trace":
+				this.trace = true;
 				break;
-			} else
-				System.err.println("Erreur dans le nombre de paramètre");
-			return 1;
-		case "trace":
-			this.trace = true;
-			break;
-		case "notrace":
-			this.trace = false;
-			break;
-		case "pile":
-			System.out.println(this);
-			break;
-		case "stop":
-			this.stop = true;
-			break;
-		default:
-			System.err.println("Erreur operateur non reconnu");
-			return 1;
+			case "notrace":
+				this.trace = false;
+				break;
+			case "pile":
+				System.out.println(this);
+				break;
+			case "stop":
+				this.stop = true;
+				break;
+			default:
+				System.err.println("Erreur operateur non reconnu");
+				break;
+			}
+		} else {
+			System.err.println("Erreur dans le nombre de paramètre");
 		}
-		return 1;
+	}
+
+	public double[] gerePile(int i) {
+		switch (i) {
+		case 0:
+			double[] tab = { sommet() };
+			pile.remove(pile.size() - 1);
+			return tab;
+		case 1:
+			double[] tab2 = { pile.get(pile.size() - 2), sommet() };
+			pile.remove(pile.size() - 1);
+			pile.remove(pile.size() - 1);
+			return tab2;
+		default:
+			return null;
+		}
 	}
 
 	public double addition(double a, double b) {
@@ -265,7 +226,7 @@ public class Calculatrice {
 	public double cos(double a) {
 		return Math.cos(a);
 	}
-	
+
 	public double tan(double a) {
 		return Math.tan(a);
 	}
@@ -296,6 +257,10 @@ public class Calculatrice {
 
 	public double sommet() {
 		return pile.get(pile.size() - 1);
+	}
+
+	public void addPile(double d) {
+		this.pile.add(d);
 	}
 
 	public String toString() {
