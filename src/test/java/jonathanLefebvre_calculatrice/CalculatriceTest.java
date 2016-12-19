@@ -15,7 +15,7 @@ import junit.runner.Version;
 public class CalculatriceTest {
 
 	protected Calculatrice calculatrice;
-	private final double ERREUR = 0.00001;
+	private final double ERREUR = 0.000001;
 
 	@Before
 	public void setUp() {
